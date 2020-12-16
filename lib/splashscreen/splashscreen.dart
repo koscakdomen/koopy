@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/services.dart';
 
 class Splashscreen extends StatefulWidget {
   Splashscreen({Key key}) : super(key: key);
@@ -14,18 +15,25 @@ class _SplashscreenState extends State<Splashscreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          AnimatedContainer(
-            duration: Duration(seconds: 1),
-            padding: EdgeInsets.only(bottom: bottom),
-            child: FlareActor(
-              "assets/animations/splashscreen.flr",
-              alignment: Alignment.center,
-              fit: BoxFit.contain,
-              animation: animation,
+          Container(
+            width: size.width - 80,
+            margin: EdgeInsets.only(left: 40),
+            child: Hero(
+              tag: 'animation',
+              child: FlareActor(
+                "assets/animations/splashscreen.flr",
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+                animation: animation,
+              ),
             ),
           ),
           FutureBuilder(
