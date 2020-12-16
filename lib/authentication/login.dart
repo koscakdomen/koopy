@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:Koopy/animations/fadein.dart';
 import 'package:Koopy/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -158,6 +161,12 @@ class _LoginState extends State<Login> {
           passwordError = null;
           mailError = null;
         });
+        Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+        SharedPreferences prefs = await _prefs;
+        var cred = jsonDecode(login.body);
+        prefs.setString("userName", cred["name"]);
+        prefs.setString("userMail", cred["mail"]);
+        prefs.setInt("userID", cred["id"]);
         Navigator.of(context).pushReplacementNamed('/homepage');
       }
     }

@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Koopy/animations/fadein.dart';
 import 'package:Koopy/theme.dart';
 import 'package:Koopy/objects/user.dart';
@@ -179,12 +179,18 @@ class _PasswordState extends State<Password> {
                                   'mail': user.mail,
                                   'password': password.value.text
                                 },
-                              ).then((value) {
+                              ).then((value) async {
                                 var json = jsonDecode(value.body);
                                 user.id = json["id"];
                                 user.name = json["name"];
                                 user.mail = json["mail"];
                                 if (value.statusCode == 200) {
+                                  Future<SharedPreferences> _prefs =
+                                      SharedPreferences.getInstance();
+                                  SharedPreferences prefs = await _prefs;
+                                  prefs.setString("userName", user.name);
+                                  prefs.setString("userMail", user.mail);
+                                  prefs.setInt("userID", user.id);
                                   Navigator.of(context)
                                       .pushReplacementNamed('/homepage');
                                 }
