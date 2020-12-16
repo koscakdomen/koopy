@@ -1,6 +1,7 @@
 import 'package:Koopy/animations/fadein.dart';
 import 'package:Koopy/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
@@ -20,6 +21,8 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
     return Scaffold(
       body: Container(
@@ -155,7 +158,7 @@ class _LoginState extends State<Login> {
           passwordError = null;
           mailError = null;
         });
-        // TODO: navigate to home screen
+        Navigator.of(context).pushReplacementNamed('/homepage');
       }
     }
   }

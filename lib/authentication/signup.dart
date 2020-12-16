@@ -1,7 +1,9 @@
 import 'package:Koopy/animations/fadein.dart';
 import 'package:Koopy/objects/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:flare_flutter/flare_actor.dart';
 
 import '../theme.dart';
 
@@ -23,6 +25,8 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
     return Scaffold(
       body: Container(
         height: size.height,
@@ -36,11 +40,17 @@ class _SignUpState extends State<SignUp> {
                 SizedBox(
                   height: 70,
                 ),
-                FadeIn(
-                  1.5,
-                  Image(
-                    image: AssetImage("assets/images/logo.png"),
-                    height: 75,
+                Container(
+                  height: 65,
+                  child: Hero(
+                    tag: 'animation',
+                    child: FlareActor(
+                      "assets/animations/splashscreen.flr",
+                      alignment: Alignment.center,
+                      shouldClip: true,
+                      fit: BoxFit.contain,
+                      animation: 'still',
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -93,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                           if (value) {
                             user.name = nameController.value.text;
                             user.mail = mailController.value.text;
-                            Navigator.of(context).pushNamed('/signup_password');
+                            Navigator.of(context).pushReplacementNamed('/signup_password');
                           }
                         });
                       }
@@ -155,7 +165,7 @@ class _SignUpState extends State<SignUp> {
         'http://192.168.64.5:5000/user/email',
         body: <String, String>{"mail": mail},
       );
-      if (response.body == "") {
+      if (response.statusCode == 200) {
         setState(() {
           mailError = null;
         });
@@ -166,6 +176,10 @@ class _SignUpState extends State<SignUp> {
         });
         return false;
       }
+    } else {
+      setState(() {
+          mailError = "Please enter real E-Mail address";
+        });
     }
     return false;
   }

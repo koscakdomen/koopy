@@ -21,6 +21,8 @@ dev_dependencies:
   flutter_launcher_icons: ^0.8.1
   flutter_launcher_name: ^0.0.1
   http: ^0.12.2
+  intl: ^0.16.1
+  circular_check_box: ^1.0.4
 
   flutter_test:
     sdk: flutter
@@ -37,5 +39,17 @@ flutter_icons:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/logo.png
-    - assets/animations/splashscreen.flr
+    - assets/
+    - assets/images/
+    - assets/animations/
+  fonts:
+    - family: 'Nunito'
+      fonts:
+        - asset: 'assets/fonts/Nunito-Black.ttf'
+          weight: 900
+        - asset: 'assets/fonts/Nunito-Bold.ttf'
+          weight: 700
+        - asset: 'assets/fonts/Nunito-Regular.ttf'
+          weight: 500
+        - asset: 'assets/fonts/Nunito-Light.ttf'
+          weight: 300

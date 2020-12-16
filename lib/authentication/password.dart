@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:Koopy/animations/fadein.dart';
 import 'package:Koopy/theme.dart';
 import 'package:Koopy/objects/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:password_strength/password_strength.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,6 +30,8 @@ class _PasswordState extends State<Password> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
     return Scaffold(
       body: Container(
@@ -167,20 +172,23 @@ class _PasswordState extends State<Password> {
                     onPressed: (button)
                         ? () async {
                             if (_formKey.currentState.validate()) {
-                              print(user.name +
-                                  " - " +
-                                  user.mail +
-                                  " - " +
-                                  password.value.text);
-                              http.post(
+                              await http.post(
                                 "http://192.168.64.5:5000/user/add",
                                 body: <String, String>{
                                   'name': user.name,
                                   'mail': user.mail,
                                   'password': password.value.text
                                 },
-                              ).then((value) => print(value.body));
-                              //TODO: go to home page
+                              ).then((value) {
+                                var json = jsonDecode(value.body);
+                                user.id = json["id"];
+                                user.name = json["name"];
+                                user.mail = json["mail"];
+                                if (value.statusCode == 200) {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/homepage');
+                                }
+                              });
                             }
                           }
                         : null,
