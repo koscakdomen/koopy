@@ -32,109 +32,114 @@ class _SignUpState extends State<SignUp> {
         height: size.height,
         width: size.width - 75,
         margin: EdgeInsets.only(left: 37.5),
-        child: ListView(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 70,
-                ),
-                Container(
-                  height: 65,
-                  child: Hero(
-                    tag: 'animation',
-                    child: FlareActor(
-                      "assets/animations/splashscreen.flr",
-                      alignment: Alignment.center,
-                      shouldClip: true,
-                      fit: BoxFit.contain,
-                      animation: 'still',
-                    ),
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 70,
                   ),
-                ),
-                SizedBox(
-                  height: 70,
-                ),
-                FadeIn(
-                  2,
-                  TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      labelText: "Full Name",
-                      prefixIcon: Icon(Icons.person),
-                      errorText: nameError,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  Container(
+                    height: 65,
+                    child: Hero(
+                      tag: 'animation',
+                      child: FlareActor(
+                        "assets/animations/splashscreen.flr",
+                        alignment: Alignment.center,
+                        shouldClip: true,
+                        fit: BoxFit.contain,
+                        animation: 'still',
                       ),
                     ),
-                    cursorColor: theme.primaryColor,
-                    onChanged: (value) => checkName(value),
                   ),
-                ),
-                SizedBox(
-                  height: 35,
-                ),
-                FadeIn(
-                  2,
-                  TextField(
-                    controller: mailController,
-                    decoration: InputDecoration(
-                      labelText: "E-Mail",
-                      prefixIcon: Icon(Icons.mail),
-                      errorText: mailError,
-                      border: OutlineInputBorder(
+                  SizedBox(
+                    height: 70,
+                  ),
+                  FadeIn(
+                    2,
+                    TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        labelText: "Full Name",
+                        prefixIcon: Icon(Icons.person),
+                        errorText: nameError,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      cursorColor: theme.primaryColor,
+                      onChanged: (value) => checkName(value),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  FadeIn(
+                    2,
+                    TextField(
+                      controller: mailController,
+                      decoration: InputDecoration(
+                        labelText: "E-Mail",
+                        prefixIcon: Icon(Icons.mail),
+                        errorText: mailError,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      cursorColor: theme.primaryColor,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 150,
+                  ),
+                  FadeIn(
+                    3,
+                    FlatButton(
+                      onPressed: () {
+                        submitted = true;
+                        if (checkName(nameController.value.text)) {
+                          checkMail(mailController.value.text).then((value) {
+                            if (value) {
+                              user.name = nameController.value.text;
+                              user.mail = mailController.value.text;
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/signup_password');
+                            }
+                          });
+                        }
+                      },
+                      child: Text(
+                        "SIGN UP",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+                      color: theme.primaryColor,
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      disabledColor: theme.primaryColor.withAlpha(128),
                     ),
-                    cursorColor: theme.primaryColor,
                   ),
-                ),
-                SizedBox(
-                  height: 150,
-                ),
-                FadeIn(
-                  3,
-                  FlatButton(
-                    onPressed: () {
-                      submitted = true;
-                      if (checkName(nameController.value.text)) {
-                        checkMail(mailController.value.text).then((value) {
-                          if (value) {
-                            user.name = nameController.value.text;
-                            user.mail = mailController.value.text;
-                            Navigator.of(context).pushReplacementNamed('/signup_password');
-                          }
-                        });
-                      }
-                    },
-                    child: Text(
-                      "SIGN UP",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  FadeIn(
+                    3.5,
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed('/login');
+                      },
+                      child: Text("Log in instead"),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-                    color: theme.primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    disabledColor: theme.primaryColor.withAlpha(128),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                FadeIn(
-                  3.5,
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/login');
-                    },
-                    child: Text("Log in instead"),
-                  ),
-                )
-              ],
-            )
-          ],
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -178,8 +183,8 @@ class _SignUpState extends State<SignUp> {
       }
     } else {
       setState(() {
-          mailError = "Please enter real E-Mail address";
-        });
+        mailError = "Please enter real E-Mail address";
+      });
     }
     return false;
   }

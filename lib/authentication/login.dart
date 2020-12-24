@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:Koopy/animations/fadein.dart';
+import 'package:Koopy/objects/user.dart';
 import 'package:Koopy/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,102 +32,108 @@ class _LoginState extends State<Login> {
         height: size.height,
         width: size.width - 75,
         margin: EdgeInsets.only(left: 37.5),
-        child: ListView(
-          children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: 70,
-                ),
-                FadeIn(
-                  1.5,
-                  Image(
-                    image: AssetImage("assets/images/logo.png"),
-                    height: 75,
-                  ),
-                ),
-                SizedBox(
-                  height: 70,
-                ),
-                FadeIn(
-                  2,
-                  TextField(
-                    controller: mailController,
-                    decoration: InputDecoration(
-                      labelText: "E-Mail",
-                      prefixIcon: Icon(Icons.mail),
-                      errorText: mailError,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 70,
+                    ),
+                    FadeIn(
+                      1.5,
+                      Image(
+                        image: AssetImage("assets/images/logo.png"),
+                        height: 75,
                       ),
                     ),
-                    cursorColor: theme.primaryColor,
-                  ),
-                ),
-                SizedBox(
-                  height: 35,
-                ),
-                FadeIn(
-                  2.5,
-                  TextField(
-                    controller: passwordController,
-                    obscureText: !visible,
-                    decoration: InputDecoration(
-                      errorText: passwordError,
-                      suffixIcon: IconButton(
-                        onPressed: () => setState(() {
-                          visible = !visible;
-                        }),
-                        icon: (visible)
-                            ? Icon(Icons.visibility_off)
-                            : Icon(Icons.visibility),
-                      ),
-                      labelText: "Password",
-                      prefixIcon: Icon(Icons.lock),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    SizedBox(
+                      height: 70,
+                    ),
+                    FadeIn(
+                      2,
+                      TextField(
+                        controller: mailController,
+                        decoration: InputDecoration(
+                          labelText: "E-Mail",
+                          prefixIcon: Icon(Icons.mail),
+                          errorText: mailError,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        cursorColor: theme.primaryColor,
                       ),
                     ),
-                    cursorColor: theme.primaryColor,
-                  ),
-                ),
-                SizedBox(
-                  height: 150,
-                ),
-                FadeIn(
-                  3,
-                  FlatButton(
-                    onPressed: () {
-                      login(mailController.value.text,
-                          passwordController.value.text);
-                    },
-                    child: Text(
-                      "LOGIN",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    SizedBox(
+                      height: 35,
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-                    color: theme.primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    FadeIn(
+                      2.5,
+                      TextField(
+                        controller: passwordController,
+                        obscureText: !visible,
+                        decoration: InputDecoration(
+                          errorText: passwordError,
+                          suffixIcon: IconButton(
+                            onPressed: () => setState(() {
+                              visible = !visible;
+                            }),
+                            icon: (visible)
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                          ),
+                          labelText: "Password",
+                          prefixIcon: Icon(Icons.lock),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        cursorColor: theme.primaryColor,
+                      ),
                     ),
-                    disabledColor: theme.primaryColor.withAlpha(128),
-                  ),
+                    SizedBox(
+                      height: 150,
+                    ),
+                    FadeIn(
+                      3,
+                      FlatButton(
+                        onPressed: () {
+                          login(mailController.value.text,
+                              passwordController.value.text);
+                        },
+                        child: Text(
+                          "LOGIN",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+                        color: theme.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        disabledColor: theme.primaryColor.withAlpha(128),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    FadeIn(
+                      3.5,
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacementNamed('/signup');
+                        },
+                        child: Text("Sign up instead"),
+                      ),
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                FadeIn(
-                  3.5,
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/signup');
-                    },
-                    child: Text("Sign up instead"),
-                  ),
-                )
-              ],
-            )
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -167,6 +173,9 @@ class _LoginState extends State<Login> {
         prefs.setString("userName", cred["name"]);
         prefs.setString("userMail", cred["mail"]);
         prefs.setInt("userID", cred["id"]);
+        user.id = cred["id"];
+        user.name = cred["name"];
+        user.mail = cred["mail"];
         Navigator.of(context).pushReplacementNamed('/homepage');
       }
     }

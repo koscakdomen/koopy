@@ -1,11 +1,12 @@
 class Item {
-  String name, description;
-  int quantity, userBoughtID, userAddedID;
+  String name, description, listName, userAddedID;
+  int quantity, userBoughtID, id;
   DateTime dateAdded, dateBought;
   bool checked;
 
-  Item(name, description, quantity, dateAdded, dateBought, userAddedID,
-      userBoughtID) {
+  Item(id, name, description, quantity, dateAdded, dateBought, userAddedID,
+      userBoughtID, listName) {
+    this.id = id;
     this.name = name;
     this.description = description;
     this.quantity = quantity;
@@ -14,5 +15,8 @@ class Item {
     this.userAddedID = userAddedID;
     this.userBoughtID = userBoughtID;
     this.checked = false;
+    this.listName = listName;
   }
 }
+
+List<Item> itemsAll = new List();

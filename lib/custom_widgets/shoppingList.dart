@@ -1,8 +1,14 @@
-import 'package:Koopy/custom_widgets/customListView.dart';
+import 'dart:convert';
+import 'package:Koopy/custom_widgets/checkbox.dart';
+import 'package:Koopy/custom_widgets/dialog.dart';
+import 'package:Koopy/custom_widgets/fab.dart';
+import 'package:Koopy/custom_widgets/productList.dart';
+import 'package:circular_check_box/circular_check_box.dart';
 import 'package:Koopy/objects/item.dart';
-import 'package:flare_flutter/flare_actor.dart';
+import 'package:Koopy/objects/user.dart';
 import 'package:Koopy/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ShoppingList extends StatefulWidget {
   ShoppingList({Key key}) : super(key: key);
@@ -12,30 +18,39 @@ class ShoppingList extends StatefulWidget {
 }
 
 class _ShoppingListState extends State<ShoppingList> {
-  var widgets = {"asd", "dsa", "sda"};
-  String animation = "Idle";
+  void callback() async {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        children: [
-          SizedBox(
-            height: 16,
-          ),
-          Text(
-            "Seznam 1",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: theme.primaryColor,
-              fontFamily: 'Nunito',
+    return FutureBuilder(
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(theme.primaryColor),
+              ),
             ),
-          ),
-          CustomListView(items: [
-            Item("Macaroni", "Test", 3, DateTime.utc(2020, 12, 16), null, 1, null),
-          ])
-        ],
-      ),
+          );
+        } else {
+          return ProductList(
+            parentSetState: this.callback,
+            items: snapshot.data,
+          );
+        }
+      },
+      future: getItems(),
     );
+  }
+
+  Future<Map> getItems() async {
+    return await http
+        .get("http://192.168.64.5:5000/list/getProducts/${user.id}")
+        .then((response) async {
+      Map _response = await json.decode(response.body);
+      return _response;
+    });
   }
 }

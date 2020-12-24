@@ -42,41 +42,49 @@ class _InfoDialogState extends State<InfoDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
-                widget.item.name,
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Nunito'),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                widget.item.description,
-                style: TextStyle(fontSize: 16, fontFamily: 'Nunito'),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 10, bottom: 20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Domen Koscak"),
-                      Text(
-                        DateFormat("dd.MM.yyyy, kk:mm")
-                            .format(widget.item.dateAdded),
-                        style: TextStyle(fontSize: 10),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.item.name,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Nunito',
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      widget.item.description,
+                      style: TextStyle(fontSize: 16, fontFamily: 'Nunito'),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 20),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(widget.item.userAddedID),
+                            Text(
+                              DateFormat("dd.MM.yyyy, kk:mm")
+                                  .format(widget.item.dateAdded),
+                              style: TextStyle(fontSize: 10),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              )
             ],
           ),
         )

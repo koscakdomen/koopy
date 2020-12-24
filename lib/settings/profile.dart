@@ -10,7 +10,7 @@ class Profile extends StatelessWidget {
         child: GestureDetector(
           onTap: () => Navigator.of(context).pop(),
           child: Hero(
-            tag: 'profile',
+            tag: 'profileSettings',
             child: Container(
               height: 70,
               width: 70,
