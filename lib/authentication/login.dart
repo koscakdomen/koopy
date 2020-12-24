@@ -172,10 +172,12 @@ class _LoginState extends State<Login> {
         var cred = jsonDecode(login.body);
         prefs.setString("userName", cred["name"]);
         prefs.setString("userMail", cred["mail"]);
+        prefs.setString("password", cred["password"]);
         prefs.setInt("userID", cred["id"]);
         user.id = cred["id"];
         user.name = cred["name"];
         user.mail = cred["mail"];
+        user.password = cred["password"];
         Navigator.of(context).pushReplacementNamed('/homepage');
       }
     }

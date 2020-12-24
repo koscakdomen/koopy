@@ -186,6 +186,7 @@ class _PasswordState extends State<Password> {
                                   user.id = json["id"];
                                   user.name = json["name"];
                                   user.mail = json["mail"];
+                                  user.password = json["password"];
                                   if (value.statusCode == 200) {
                                     Future<SharedPreferences> _prefs =
                                         SharedPreferences.getInstance();
@@ -193,6 +194,7 @@ class _PasswordState extends State<Password> {
                                     prefs.setString("userName", user.name);
                                     prefs.setString("userMail", user.mail);
                                     prefs.setInt("userID", user.id);
+                                    prefs.setString("password", user.password);
                                     Navigator.of(context)
                                         .pushReplacementNamed('/create_family');
                                   }
